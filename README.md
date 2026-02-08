@@ -1,33 +1,46 @@
 # Vani-AgriGateway
 Vani-Agri Gateway  AI for the 70% without smartphones. Farmers call a local number to get expert advice on pests, weather, and prices in local dialects.  Key Features:  Voice-First: No internet or literacy needed.  RAG AI: Hyper-local, 95% accurate data.  GSM-Ready: Works on any $10 phone.  Transforming basic phones into smart farming tools.
-🌍 The Problem
-The Digital Divide: Most Agri-Tech solutions require $200 smartphones and 4G/5G data, excluding 70% of small-scale rural farmers.
+Transforming the $10 feature phone into a professional agronomist.
 
-Information Gap: Real-time data on pests, weather, and market prices (Mandis) rarely reaches the farmers who need it most.
+Vani-AgriGateway is an AI-powered voice platform designed for the 70% of global farmers who live without smartphones or reliable internet. By calling a local number, farmers receive real-time, expert advice on pest control, weather patterns, and market prices in their native dialect.
 
-Literacy Barriers: Complex text-based apps are difficult for non-literate users to navigate.
+🌍 The Problem: The Digital Divide
+Traditional Agri-Tech solutions often fail the people who need them most due to:
+
+The Hardware Gap: Most apps require $200+ smartphones and 4G/5G data.
+
+The Literacy Barrier: Text-heavy interfaces exclude non-literate rural populations.
+
+The Information Lag: Critical data on Mandi (market) prices and pest outbreaks rarely reaches the "last mile."
 
 🚀 Our Solution: "Zero-UI" Innovation
-Vani-Agri acts as a 24/7 virtual agronomist reachable via any basic feature phone.
+Vani-AgriGateway provides a 24/7 virtual agronomist accessible via a standard GSM voice call.
 
-Voice-First: Uses advanced Speech-to-Text (STT) and Text-to-Speech (TTS) to allow farmers to "just talk" to the AI in their local dialect.
+Voice-First Interface: Powered by advanced STT (Speech-to-Text) and TTS (Text-to-Speech), allowing farmers to "just talk" to the AI.
 
-RAG-Powered Accuracy: Unlike standard chatbots, our system uses Retrieval-Augmented Generation to fetch live weather, pest-control manuals, and government market prices before responding.
+Hyper-Local RAG: Uses Retrieval-Augmented Generation to fetch live, 95% accurate data on local weather and government market prices.
 
-Hardware Agnostic: Works on any $10 mobile phone over a standard cellular connection.
+Hardware Agnostic: Works on any basic mobile phone; no internet or app installation required.
 
 🛠️ Technical Architecture
-Telephony: Twilio / Exotel API (Handles incoming GSM calls).
-
-Processing: OpenAI Whisper (STT) & Google Cloud TTS (Voice synthesis).
-
-Brain: GPT-4o / Llama 3 (Reasoning and decision support).
-
-Knowledge Base: Vector Database (Pinecone) containing localized agricultural research and Mandi price history.
-
 📈 Impact & Sustainability
-Economic: Increases farmer income by providing direct-to-market pricing, eliminating middlemen.
+Economic Empowerment: Increases farmer income by providing direct-to-market pricing, effectively eliminating exploitative middlemen.
 
-Environmental: Promotes sustainable resource use (water/fertilizer) through precision AI alerts.
+Precision Agriculture: Reduces waste of water and fertilizer through AI-driven precision alerts.
+
+Infinite Scalability: A single cloud-based gateway can serve an entire region with minimal physical infrastructure.
+
+🛠️ Installation & Setup (For Contributors)
+Clone the Repo:
+
+Install Dependencies:
+
+Environment Variables: Create a .env file and add your API keys:
+
+OPENAI_API_KEY
+
+TWILIO_ACCOUNT_SID
+
+PINECONE_API_KEY
 
 Scalable: A single gateway can serve an entire state with minimal infrastructure costs.
