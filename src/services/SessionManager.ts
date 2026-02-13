@@ -16,16 +16,18 @@ export class SessionManager {
     farmerProfile?: FarmerProfile
   ): Promise<CallSession> {
     const sessionId = this.generateSessionId();
+    const now = new Date();
     const session: CallSession = {
       sessionId,
       callId,
       phoneNumber,
       farmerProfile,
-      startTime: new Date(),
+      startTime: now,
       status: 'active',
       interactions: [],
       context: {
-        previousQueries: []
+        previousQueries: [],
+        lastActivity: now
       }
     };
     return await this.database.createSession(session);

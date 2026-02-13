@@ -68,7 +68,7 @@ The system implements a sophisticated session management system that handles:
 
 1. **Session Creation**
    - Triggered when user calls in
-   - Unique session ID generated: `session_{timestamp}_{random}`
+   - Unique session ID generated using cryptographically secure UUID: `session_{UUID}`
    - Session linked to phone number and call ID
    - Initial status set to 'active'
 

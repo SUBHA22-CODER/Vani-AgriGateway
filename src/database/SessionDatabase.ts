@@ -27,7 +27,11 @@ export class SessionDatabase {
   async getActiveSessionByPhone(phoneNumber: string): Promise<CallSession | null> {
     const sessionId = this.activeSessionsByPhone.get(phoneNumber);
     if (sessionId) {
-      return this.getSession(sessionId);
+      const session = this.sessions.get(sessionId);
+      if (session && session.status === 'active') {
+        return session;
+      }
+      this.activeSessionsByPhone.delete(phoneNumber);
     }
     return null;
   }
