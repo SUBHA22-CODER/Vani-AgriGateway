@@ -1,0 +1,14 @@
+node_modules/
+dist/
+*.log
+.env
+.DS_Store
+*.js
+*.js.map
+*.d.ts
+*.d.ts.map
+!jest.config.js
+.vscode/
+.idea/
+coverage/
+.nyc_output/
