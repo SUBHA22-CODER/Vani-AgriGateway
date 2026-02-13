@@ -60,6 +60,7 @@ export interface SessionContext {
   weatherData?: WeatherData;
   marketData?: MarketPrice[];
   detectedCrops?: string[];
+  lastActivity?: Date;
 }
 
 export interface CallSession {

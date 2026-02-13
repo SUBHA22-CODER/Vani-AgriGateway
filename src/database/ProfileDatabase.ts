@@ -33,8 +33,9 @@ export class ProfileDatabase {
   }
 
   async createProfile(phoneNumber: string, data: ProfileData): Promise<FarmerProfile> {
+    const encryptedPhoneNumber = this.encrypt(phoneNumber);
     const profile: FarmerProfile = {
-      phoneNumber: this.encrypt(phoneNumber),
+      phoneNumber: encryptedPhoneNumber,
       ...data,
       interactionHistory: [],
       preferences: {
@@ -46,42 +47,47 @@ export class ProfileDatabase {
       updatedAt: new Date()
     };
 
-    this.profiles.set(phoneNumber, profile);
+    this.profiles.set(encryptedPhoneNumber, profile);
     return profile;
   }
 
   async getProfile(phoneNumber: string): Promise<FarmerProfile | null> {
-    return this.profiles.get(phoneNumber) || null;
+    const encryptedPhoneNumber = this.encrypt(phoneNumber);
+    return this.profiles.get(encryptedPhoneNumber) || null;
   }
 
   async updateProfile(phoneNumber: string, updates: Partial<ProfileData>): Promise<void> {
+    const encryptedPhoneNumber = this.encrypt(phoneNumber);
     const profile = await this.getProfile(phoneNumber);
     if (profile) {
       Object.assign(profile, updates);
       profile.updatedAt = new Date();
-      this.profiles.set(phoneNumber, profile);
+      this.profiles.set(encryptedPhoneNumber, profile);
     }
   }
 
   async recordInteraction(phoneNumber: string, interaction: InteractionRecord): Promise<void> {
+    const encryptedPhoneNumber = this.encrypt(phoneNumber);
     const profile = await this.getProfile(phoneNumber);
     if (profile) {
       profile.interactionHistory.push(interaction);
       profile.updatedAt = new Date();
-      this.profiles.set(phoneNumber, profile);
+      this.profiles.set(encryptedPhoneNumber, profile);
     }
   }
 
   async updateLastInteractionTime(phoneNumber: string): Promise<void> {
+    const encryptedPhoneNumber = this.encrypt(phoneNumber);
     const profile = await this.getProfile(phoneNumber);
     if (profile) {
       profile.updatedAt = new Date();
-      this.profiles.set(phoneNumber, profile);
+      this.profiles.set(encryptedPhoneNumber, profile);
     }
   }
 
   async deleteProfile(phoneNumber: string): Promise<void> {
-    this.profiles.delete(phoneNumber);
+    const encryptedPhoneNumber = this.encrypt(phoneNumber);
+    this.profiles.delete(encryptedPhoneNumber);
   }
 
   async findByLocation(state: string, district: string): Promise<FarmerProfile[]> {
