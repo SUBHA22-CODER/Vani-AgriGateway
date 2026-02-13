@@ -2,7 +2,8 @@ import { VaniAgriGateway } from './VaniAgriGateway';
 import { ProfileData } from './models/FarmerProfile';
 
 async function demonstrateLoginAndRegistration() {
-  const gateway = new VaniAgriGateway('encryption-key-123', 10);
+  const encryptionKey = process.env.ENCRYPTION_KEY || 'default-encryption-key-change-in-production';
+  const gateway = new VaniAgriGateway(encryptionKey, 10);
 
   const farmerPhone = '+919876543210';
   const callId = 'call_001';

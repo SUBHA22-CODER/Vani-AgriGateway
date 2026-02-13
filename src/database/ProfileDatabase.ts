@@ -1,4 +1,5 @@
 import { FarmerProfile, ProfileData } from '../models/FarmerProfile';
+import * as crypto from 'crypto';
 
 export class ProfileDatabase {
   private profiles: Map<string, FarmerProfile>;
@@ -10,7 +11,6 @@ export class ProfileDatabase {
   }
 
   private encrypt(data: string): string {
-    const crypto = require('crypto');
     const algorithm = 'aes-256-cbc';
     const key = crypto.createHash('sha256').update(this.encryptionKey).digest();
     const iv = crypto.randomBytes(16);
@@ -21,7 +21,6 @@ export class ProfileDatabase {
   }
 
   private decrypt(data: string): string {
-    const crypto = require('crypto');
     const algorithm = 'aes-256-cbc';
     const key = crypto.createHash('sha256').update(this.encryptionKey).digest();
     const parts = data.split(':');
@@ -68,6 +67,14 @@ export class ProfileDatabase {
     const profile = await this.getProfile(phoneNumber);
     if (profile) {
       profile.interactionHistory.push(interaction);
+      profile.updatedAt = new Date();
+      this.profiles.set(phoneNumber, profile);
+    }
+  }
+
+  async updateLastInteractionTime(phoneNumber: string): Promise<void> {
+    const profile = await this.getProfile(phoneNumber);
+    if (profile) {
       profile.updatedAt = new Date();
       this.profiles.set(phoneNumber, profile);
     }

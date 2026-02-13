@@ -1,10 +1,46 @@
 import { FarmerProfile } from './FarmerProfile';
 
+interface WeatherConditions {
+  temperature: number;
+  humidity: number;
+  rainfall: number;
+  windSpeed: number;
+  conditions: string;
+}
+
+interface WeatherForecast {
+  date: Date;
+  minTemp: number;
+  maxTemp: number;
+  rainfall: number;
+  conditions: string;
+  advisory?: string;
+}
+
+interface WeatherAlert {
+  type: string;
+  severity: string;
+  description: string;
+  startTime: Date;
+  endTime: Date;
+}
+
+interface Location {
+  state: string;
+  district: string;
+  block?: string;
+  village?: string;
+  coordinates?: {
+    latitude: number;
+    longitude: number;
+  };
+}
+
 interface WeatherData {
-  location: any;
-  current: any;
-  forecast: any[];
-  alerts: any[];
+  location: Location;
+  current: WeatherConditions;
+  forecast: WeatherForecast[];
+  alerts: WeatherAlert[];
   timestamp: Date;
 }
 

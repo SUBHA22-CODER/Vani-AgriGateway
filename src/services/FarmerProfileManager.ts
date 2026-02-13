@@ -45,6 +45,6 @@ export class FarmerProfileManager {
   }
 
   async updateLastInteraction(phoneNumber: string): Promise<void> {
-    await this.database.updateProfile(phoneNumber, {});
+    await this.database.updateLastInteractionTime(phoneNumber);
   }
 }
