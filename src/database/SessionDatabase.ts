@@ -4,6 +4,7 @@ export class SessionDatabase {
   private sessions: Map<string, CallSession>;
   private activeSessionsByPhone: Map<string, string>;
   private sessionTTL: number;
+  private static readonly CLEANUP_INTERVAL_MS = 60000;
 
   constructor(ttlMinutes: number = 10) {
     this.sessions = new Map();
@@ -97,6 +98,6 @@ export class SessionDatabase {
           }
         }
       }
-    }, 60000);
+    }, SessionDatabase.CLEANUP_INTERVAL_MS);
   }
 }

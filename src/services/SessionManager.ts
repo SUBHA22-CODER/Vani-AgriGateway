@@ -1,6 +1,7 @@
 import { SessionDatabase } from '../database/SessionDatabase';
-import { CallSession } from '../models/CallSession';
-import { FarmerProfile } from '../models/FarmerProfile';
+import { CallSession, SessionContext } from '../models/CallSession';
+import { FarmerProfile, InteractionRecord } from '../models/FarmerProfile';
+import * as crypto from 'crypto';
 
 export class SessionManager {
   private database: SessionDatabase;
@@ -34,7 +35,7 @@ export class SessionManager {
     return await this.database.getSession(sessionId);
   }
 
-  async updateSessionContext(sessionId: string, contextUpdates: any): Promise<void> {
+  async updateSessionContext(sessionId: string, contextUpdates: Partial<SessionContext>): Promise<void> {
     const session = await this.database.getSession(sessionId);
     if (session) {
       session.context = { ...session.context, ...contextUpdates };
@@ -42,7 +43,7 @@ export class SessionManager {
     }
   }
 
-  async addInteraction(sessionId: string, interaction: any): Promise<void> {
+  async addInteraction(sessionId: string, interaction: InteractionRecord): Promise<void> {
     const session = await this.database.getSession(sessionId);
     if (session) {
       session.interactions.push(interaction);
@@ -63,7 +64,7 @@ export class SessionManager {
   }
 
   private generateSessionId(): string {
-    return `session_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
+    return `session_${Date.now()}_${crypto.randomUUID()}`;
   }
 
   async getSessionHistory(phoneNumber: string): Promise<CallSession[]> {

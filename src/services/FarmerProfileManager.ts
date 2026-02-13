@@ -1,5 +1,5 @@
 import { ProfileDatabase } from '../database/ProfileDatabase';
-import { FarmerProfile, ProfileData } from '../models/FarmerProfile';
+import { FarmerProfile, ProfileData, InteractionRecord } from '../models/FarmerProfile';
 
 export class FarmerProfileManager {
   private database: ProfileDatabase;
@@ -32,7 +32,7 @@ export class FarmerProfileManager {
     await this.database.updateProfile(phoneNumber, updates);
   }
 
-  async recordInteraction(phoneNumber: string, interaction: any): Promise<void> {
+  async recordInteraction(phoneNumber: string, interaction: InteractionRecord): Promise<void> {
     await this.database.recordInteraction(phoneNumber, interaction);
   }
 

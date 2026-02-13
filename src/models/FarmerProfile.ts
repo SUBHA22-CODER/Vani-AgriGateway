@@ -16,7 +16,7 @@ interface UserPreferences {
   followUpEnabled: boolean;
 }
 
-interface InteractionRecord {
+export interface InteractionRecord {
   sessionId: string;
   timestamp: Date;
   channel: 'voice' | 'sms' | 'ussd';

@@ -1,4 +1,4 @@
-import { FarmerProfile, ProfileData } from '../models/FarmerProfile';
+import { FarmerProfile, ProfileData, InteractionRecord } from '../models/FarmerProfile';
 import * as crypto from 'crypto';
 
 export class ProfileDatabase {
@@ -63,7 +63,7 @@ export class ProfileDatabase {
     }
   }
 
-  async recordInteraction(phoneNumber: string, interaction: any): Promise<void> {
+  async recordInteraction(phoneNumber: string, interaction: InteractionRecord): Promise<void> {
     const profile = await this.getProfile(phoneNumber);
     if (profile) {
       profile.interactionHistory.push(interaction);

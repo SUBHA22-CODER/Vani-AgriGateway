@@ -1,4 +1,4 @@
-import { FarmerProfile } from './FarmerProfile';
+import { FarmerProfile, InteractionRecord } from './FarmerProfile';
 
 interface WeatherConditions {
   temperature: number;
@@ -54,22 +54,12 @@ interface MarketPrice {
   trend: 'up' | 'down' | 'stable';
 }
 
-interface SessionContext {
+export interface SessionContext {
   currentTopic?: string;
   previousQueries: string[];
   weatherData?: WeatherData;
   marketData?: MarketPrice[];
   detectedCrops?: string[];
-}
-
-interface InteractionRecord {
-  sessionId: string;
-  timestamp: Date;
-  channel: 'voice' | 'sms' | 'ussd';
-  query: string;
-  response: string;
-  satisfaction?: number;
-  duration?: number;
 }
 
 export interface CallSession {
