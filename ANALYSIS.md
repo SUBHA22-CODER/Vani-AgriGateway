@@ -40,7 +40,7 @@ The Vani-Agri Gateway implements a phone-based authentication and registration s
 - `deleteProfile()`: Removes profile (for data privacy compliance)
 - `findByLocation()`: Queries profiles by geographic location
 
-**Data Encryption**: Phone numbers are encrypted using base64 encoding before storage
+**Data Encryption**: Phone numbers are encrypted using AES-256-CBC encryption before storage
 
 ### SessionDatabase.ts
 **Location**: `src/database/SessionDatabase.ts`

@@ -10,11 +10,27 @@ export class ProfileDatabase {
   }
 
   private encrypt(data: string): string {
-    return Buffer.from(data).toString('base64');
+    const crypto = require('crypto');
+    const algorithm = 'aes-256-cbc';
+    const key = crypto.createHash('sha256').update(this.encryptionKey).digest();
+    const iv = crypto.randomBytes(16);
+    const cipher = crypto.createCipheriv(algorithm, key, iv);
+    let encrypted = cipher.update(data, 'utf8', 'hex');
+    encrypted += cipher.final('hex');
+    return iv.toString('hex') + ':' + encrypted;
   }
 
   private decrypt(data: string): string {
-    return Buffer.from(data, 'base64').toString('utf-8');
+    const crypto = require('crypto');
+    const algorithm = 'aes-256-cbc';
+    const key = crypto.createHash('sha256').update(this.encryptionKey).digest();
+    const parts = data.split(':');
+    const iv = Buffer.from(parts[0], 'hex');
+    const encryptedText = parts[1];
+    const decipher = crypto.createDecipheriv(algorithm, key, iv);
+    let decrypted = decipher.update(encryptedText, 'hex', 'utf8');
+    decrypted += decipher.final('utf8');
+    return decrypted;
   }
 
   async createProfile(phoneNumber: string, data: ProfileData): Promise<FarmerProfile> {
@@ -22,7 +38,7 @@ export class ProfileDatabase {
       phoneNumber: this.encrypt(phoneNumber),
       ...data,
       interactionHistory: [],
-      preferences: data.preferences || {
+      preferences: {
         communicationChannel: 'voice',
         detailLevel: 'basic',
         followUpEnabled: true
