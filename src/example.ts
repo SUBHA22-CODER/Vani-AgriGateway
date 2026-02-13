@@ -2,7 +2,11 @@ import { VaniAgriGateway } from './VaniAgriGateway';
 import { ProfileData } from './models/FarmerProfile';
 
 async function demonstrateLoginAndRegistration() {
-  const encryptionKey = process.env.ENCRYPTION_KEY || 'default-encryption-key-change-in-production';
+  const encryptionKey = process.env.ENCRYPTION_KEY;
+  if (!encryptionKey) {
+    throw new Error('ENCRYPTION_KEY environment variable is required. Please set a secure encryption key (minimum 32 characters).');
+  }
+  
   const gateway = new VaniAgriGateway(encryptionKey, 10);
 
   const farmerPhone = '+919876543210';
@@ -59,6 +63,8 @@ async function demonstrateLoginAndRegistration() {
   const secondCallId = 'call_002';
   const resumeResult = await gateway.handleIncomingCall(farmerPhone, secondCallId);
   console.log('Resume Result:', resumeResult);
+
+  gateway.dispose();
 }
 
 demonstrateLoginAndRegistration().catch(console.error);

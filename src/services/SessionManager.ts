@@ -64,7 +64,7 @@ export class SessionManager {
   }
 
   private generateSessionId(): string {
-    return `session_${Date.now()}_${crypto.randomUUID()}`;
+    return `session_${crypto.randomUUID()}`;
   }
 
   async getSessionHistory(phoneNumber: string): Promise<CallSession[]> {

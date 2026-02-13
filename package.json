@@ -5,7 +5,8 @@
   "main": "src/VaniAgriGateway.ts",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/VaniAgriGateway.js"
+    "start": "node dist/example.js",
+    "example": "node dist/example.js"
   },
   "keywords": [
     "agriculture",

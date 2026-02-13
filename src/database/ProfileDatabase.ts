@@ -6,8 +6,17 @@ export class ProfileDatabase {
   private encryptionKey: string;
 
   constructor(encryptionKey: string) {
+    if (!encryptionKey || encryptionKey.length < 32) {
+      throw new Error('Encryption key must be at least 32 characters long');
+    }
     this.profiles = new Map();
     this.encryptionKey = encryptionKey;
+  }
+
+  private getConsistentKey(phoneNumber: string): string {
+    const hmac = crypto.createHmac('sha256', this.encryptionKey);
+    hmac.update(phoneNumber);
+    return hmac.digest('hex');
   }
 
   private encrypt(data: string): string {
@@ -34,6 +43,7 @@ export class ProfileDatabase {
 
   async createProfile(phoneNumber: string, data: ProfileData): Promise<FarmerProfile> {
     const encryptedPhoneNumber = this.encrypt(phoneNumber);
+    const consistentKey = this.getConsistentKey(phoneNumber);
     const profile: FarmerProfile = {
       phoneNumber: encryptedPhoneNumber,
       ...data,
@@ -47,47 +57,47 @@ export class ProfileDatabase {
       updatedAt: new Date()
     };
 
-    this.profiles.set(encryptedPhoneNumber, profile);
+    this.profiles.set(consistentKey, profile);
     return profile;
   }
 
   async getProfile(phoneNumber: string): Promise<FarmerProfile | null> {
-    const encryptedPhoneNumber = this.encrypt(phoneNumber);
-    return this.profiles.get(encryptedPhoneNumber) || null;
+    const consistentKey = this.getConsistentKey(phoneNumber);
+    return this.profiles.get(consistentKey) || null;
   }
 
   async updateProfile(phoneNumber: string, updates: Partial<ProfileData>): Promise<void> {
-    const encryptedPhoneNumber = this.encrypt(phoneNumber);
+    const consistentKey = this.getConsistentKey(phoneNumber);
     const profile = await this.getProfile(phoneNumber);
     if (profile) {
       Object.assign(profile, updates);
       profile.updatedAt = new Date();
-      this.profiles.set(encryptedPhoneNumber, profile);
+      this.profiles.set(consistentKey, profile);
     }
   }
 
   async recordInteraction(phoneNumber: string, interaction: InteractionRecord): Promise<void> {
-    const encryptedPhoneNumber = this.encrypt(phoneNumber);
+    const consistentKey = this.getConsistentKey(phoneNumber);
     const profile = await this.getProfile(phoneNumber);
     if (profile) {
       profile.interactionHistory.push(interaction);
       profile.updatedAt = new Date();
-      this.profiles.set(encryptedPhoneNumber, profile);
+      this.profiles.set(consistentKey, profile);
     }
   }
 
   async updateLastInteractionTime(phoneNumber: string): Promise<void> {
-    const encryptedPhoneNumber = this.encrypt(phoneNumber);
+    const consistentKey = this.getConsistentKey(phoneNumber);
     const profile = await this.getProfile(phoneNumber);
     if (profile) {
       profile.updatedAt = new Date();
-      this.profiles.set(encryptedPhoneNumber, profile);
+      this.profiles.set(consistentKey, profile);
     }
   }
 
   async deleteProfile(phoneNumber: string): Promise<void> {
-    const encryptedPhoneNumber = this.encrypt(phoneNumber);
-    this.profiles.delete(encryptedPhoneNumber);
+    const consistentKey = this.getConsistentKey(phoneNumber);
+    this.profiles.delete(consistentKey);
   }
 
   async findByLocation(state: string, district: string): Promise<FarmerProfile[]> {

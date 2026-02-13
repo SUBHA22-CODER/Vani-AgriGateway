@@ -15,6 +15,9 @@ export class VaniAgriGateway {
   private sessionMiddleware: SessionMiddleware;
 
   constructor(encryptionKey: string, sessionTTLMinutes: number = 10) {
+    if (!encryptionKey || encryptionKey.length < 32) {
+      throw new Error('Encryption key must be at least 32 characters long');
+    }
     this.profileDB = new ProfileDatabase(encryptionKey);
     this.sessionDB = new SessionDatabase(sessionTTLMinutes);
     this.profileManager = new FarmerProfileManager(this.profileDB);
@@ -71,5 +74,9 @@ export class VaniAgriGateway {
 
   getAuthService() {
     return this.authService;
+  }
+
+  dispose(): void {
+    this.sessionDB.dispose();
   }
 }

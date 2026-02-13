@@ -4,6 +4,7 @@ export class SessionDatabase {
   private sessions: Map<string, CallSession>;
   private activeSessionsByPhone: Map<string, string>;
   private sessionTTL: number;
+  private cleanupIntervalId?: NodeJS.Timeout;
   private static readonly CLEANUP_INTERVAL_MS = 60000;
 
   constructor(ttlMinutes: number = 10) {
@@ -87,7 +88,7 @@ export class SessionDatabase {
   }
 
   private startCleanupTask(): void {
-    setInterval(() => {
+    this.cleanupIntervalId = setInterval(() => {
       const now = new Date().getTime();
       for (const [sessionId, session] of this.sessions.entries()) {
         if (session.status === 'completed' || 
@@ -99,5 +100,12 @@ export class SessionDatabase {
         }
       }
     }, SessionDatabase.CLEANUP_INTERVAL_MS);
+  }
+
+  dispose(): void {
+    if (this.cleanupIntervalId) {
+      clearInterval(this.cleanupIntervalId);
+      this.cleanupIntervalId = undefined;
+    }
   }
 }
