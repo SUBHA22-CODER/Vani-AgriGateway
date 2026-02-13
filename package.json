@@ -1,0 +1,24 @@
+{
+  "name": "vani-agrigateway",
+  "version": "1.0.0",
+  "description": "AI-powered voice platform for farmers with basic feature phones",
+  "main": "src/VaniAgriGateway.ts",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/example.js",
+    "example": "node dist/example.js"
+  },
+  "keywords": [
+    "agriculture",
+    "ai",
+    "voice",
+    "ivr",
+    "farmers"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  }
+}
