@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import jwt, { SignOptions } from 'jsonwebtoken';
 import { AuthTokenPayload } from '../types/models';
 
 export class TokenService {
@@ -11,7 +11,7 @@ export class TokenService {
   }
 
   generateToken(payload: AuthTokenPayload): string {
-    return jwt.sign(payload, this.secret, { expiresIn: this.expiresIn });
+    return jwt.sign(payload, this.secret, { expiresIn: this.expiresIn as any });
   }
 
   verifyToken(token: string): AuthTokenPayload {
