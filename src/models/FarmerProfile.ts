@@ -1,13 +1,4 @@
-interface Location {
-  state: string;
-  district: string;
-  block?: string;
-  village?: string;
-  coordinates?: {
-    latitude: number;
-    longitude: number;
-  };
-}
+import { Location } from './CommonTypes';
 
 interface UserPreferences {
   communicationChannel: 'voice' | 'sms' | 'ussd';

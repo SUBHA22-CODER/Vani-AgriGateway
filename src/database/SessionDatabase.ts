@@ -67,8 +67,8 @@ export class SessionDatabase {
 
   private isSessionResumable(session: CallSession): boolean {
     const now = new Date().getTime();
-    const sessionTime = session.startTime.getTime();
-    return (now - sessionTime) < this.sessionTTL && session.status !== 'completed';
+    const lastActivityTime = session.context.lastActivity?.getTime() || session.startTime.getTime();
+    return (now - lastActivityTime) < this.sessionTTL && session.status !== 'completed';
   }
 
   async getSessionsByPhone(phoneNumber: string): Promise<CallSession[]> {
@@ -95,8 +95,9 @@ export class SessionDatabase {
     this.cleanupIntervalId = setInterval(() => {
       const now = new Date().getTime();
       for (const [sessionId, session] of this.sessions.entries()) {
+        const lastActivityTime = session.context.lastActivity?.getTime() || session.startTime.getTime();
         if (session.status === 'completed' || 
-            (now - session.startTime.getTime()) > this.sessionTTL) {
+            (now - lastActivityTime) > this.sessionTTL) {
           this.sessions.delete(sessionId);
           if (this.activeSessionsByPhone.get(session.phoneNumber) === sessionId) {
             this.activeSessionsByPhone.delete(session.phoneNumber);

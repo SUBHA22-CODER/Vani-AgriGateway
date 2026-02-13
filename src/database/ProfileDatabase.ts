@@ -1,4 +1,5 @@
 import { FarmerProfile, ProfileData, InteractionRecord } from '../models/FarmerProfile';
+import { validateEncryptionKey } from '../models/CommonTypes';
 import * as crypto from 'crypto';
 
 export class ProfileDatabase {
@@ -6,9 +7,7 @@ export class ProfileDatabase {
   private encryptionKey: string;
 
   constructor(encryptionKey: string) {
-    if (!encryptionKey || encryptionKey.length < 32) {
-      throw new Error('Encryption key must be at least 32 characters long');
-    }
+    validateEncryptionKey(encryptionKey);
     this.profiles = new Map();
     this.encryptionKey = encryptionKey;
   }

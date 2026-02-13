@@ -39,18 +39,20 @@ export class SessionManager {
 
   async updateSessionContext(sessionId: string, contextUpdates: Partial<SessionContext>): Promise<void> {
     const session = await this.database.getSession(sessionId);
-    if (session) {
-      session.context = { ...session.context, ...contextUpdates };
-      await this.database.updateSession(sessionId, { context: session.context });
+    if (!session) {
+      throw new Error('Session not found');
     }
+    session.context = { ...session.context, ...contextUpdates };
+    await this.database.updateSession(sessionId, { context: session.context });
   }
 
   async addInteraction(sessionId: string, interaction: InteractionRecord): Promise<void> {
     const session = await this.database.getSession(sessionId);
-    if (session) {
-      session.interactions.push(interaction);
-      await this.database.updateSession(sessionId, { interactions: session.interactions });
+    if (!session) {
+      throw new Error('Session not found');
     }
+    session.interactions.push(interaction);
+    await this.database.updateSession(sessionId, { interactions: session.interactions });
   }
 
   async endSession(sessionId: string): Promise<void> {

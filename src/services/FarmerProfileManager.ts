@@ -29,10 +29,18 @@ export class FarmerProfileManager {
   }
 
   async updateProfile(phoneNumber: string, updates: Partial<ProfileData>): Promise<void> {
+    const profile = await this.database.getProfile(phoneNumber);
+    if (!profile) {
+      throw new Error('Profile not found');
+    }
     await this.database.updateProfile(phoneNumber, updates);
   }
 
   async recordInteraction(phoneNumber: string, interaction: InteractionRecord): Promise<void> {
+    const profile = await this.database.getProfile(phoneNumber);
+    if (!profile) {
+      throw new Error('Profile not found');
+    }
     await this.database.recordInteraction(phoneNumber, interaction);
   }
 

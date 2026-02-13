@@ -1,4 +1,5 @@
 import { FarmerProfile, InteractionRecord } from './FarmerProfile';
+import { Location } from './CommonTypes';
 
 interface WeatherConditions {
   temperature: number;
@@ -23,17 +24,6 @@ interface WeatherAlert {
   description: string;
   startTime: Date;
   endTime: Date;
-}
-
-interface Location {
-  state: string;
-  district: string;
-  block?: string;
-  village?: string;
-  coordinates?: {
-    latitude: number;
-    longitude: number;
-  };
 }
 
 interface WeatherData {
